@@ -17,7 +17,7 @@ public class Main {
             db = DriverManager.getConnection("jdbc:sqlite:resources/" + dbFile, config.toProperties());
             System.out.println("Database connection successfully established.");
         } catch (Exception exception) {
-            System.out.println("Database connection error: " + exception.getMessage());
+            System.out.println("Database connection error: " + exception.getMessage()); //Jeff
         }
     }
     private static void closeDatabase(){
