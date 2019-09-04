@@ -16,6 +16,7 @@ public class Main {
             config.enforceForeignKeys(true);
             db = DriverManager.getConnection("jdbc:sqlite:resources/" + dbFile, config.toProperties());
             System.out.println("Database connection successfully established.");
+            PreparedStatement ps = db.prepareStatement("SELECT UserID FROM Users ");
         } catch (Exception exception) {
             System.out.println("Database connection error: " + exception.getMessage()); //Jeff
         }
