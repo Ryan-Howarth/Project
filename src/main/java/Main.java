@@ -17,6 +17,12 @@ public class Main {
             db = DriverManager.getConnection("jdbc:sqlite:resources/" + dbFile, config.toProperties());
             System.out.println("Database connection successfully established.");
             PreparedStatement ps = db.prepareStatement("SELECT UserID FROM Users ");
+            ResultSet users = ps.executeQuery();
+            while (users.next()) {
+                int userID = users.getInt(1);
+                String firstName = users.getString(2);
+                String surName = users.getString(3);
+                System.out.println(userID + "" + firstName);
         } catch (Exception exception) {
             System.out.println("Database connection error: " + exception.getMessage()); //Jeff
         }
