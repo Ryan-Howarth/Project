@@ -2,11 +2,28 @@ import org.sqlite.SQLiteConfig;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class Main {
     public static Connection db = null;
     public static void main(String[] args) {
         openDatabase("Database.db");
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users(UserID, FirstName, LastName) VALUES (?, ?, ?)");
+            ps.setInt(1, 88);
+            ps.setString(2, "Jeff");
+            ps.setString(3, "Jones");
+            ps.executeUpdate();
+
+
+
+
+
+
+        } catch (Exception exception) {
+            System.out.println("Database disconnection error: " + exception.getMessage());
+        }
         closeDatabase();
     }
     private static void openDatabase(String dbFile) {
@@ -16,15 +33,8 @@ public class Main {
             config.enforceForeignKeys(true);
             db = DriverManager.getConnection("jdbc:sqlite:resources/" + dbFile, config.toProperties());
             System.out.println("Database connection successfully established.");
-            PreparedStatement ps = db.prepareStatement("SELECT UserID FROM Users ");
-            ResultSet users = ps.executeQuery();
-            while (users.next()) {
-                int userID = users.getInt(1);
-                String firstName = users.getString(2);
-                String surName = users.getString(3);
-                System.out.println(userID + "" + firstName);
         } catch (Exception exception) {
-            System.out.println("Database connection error: " + exception.getMessage()); //Jeff
+            System.out.println("Database connection error: " + exception.getMessage());
         }
     }
     private static void closeDatabase(){
