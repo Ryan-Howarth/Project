@@ -2,28 +2,12 @@ import org.sqlite.SQLiteConfig;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class Main {
     public static Connection db = null;
     public static void main(String[] args) {
         openDatabase("Database.db");
-        try {
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users(UserID, FirstName, LastName) VALUES (?, ?, ?)");
-            ps.setInt(1, 88);
-            ps.setString(2, "Jeff");
-            ps.setString(3, "Jones");
-            ps.executeUpdate();
-
-
-
-
-
-
-        } catch (Exception exception) {
-            System.out.println("Database disconnection error: " + exception.getMessage());
-        }
+        UserManagement.addUsers(4, "Jeb", "Yale", "Diggless", "Spanner");
         closeDatabase();
     }
     private static void openDatabase(String dbFile) {
@@ -45,4 +29,7 @@ public class Main {
             System.out.println("Database disconnection error: " + exception.getMessage());
         }
     }
-}
+
+        }
+
+
