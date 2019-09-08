@@ -7,7 +7,7 @@ public class Main {
     public static Connection db = null;
     public static void main(String[] args) {
         openDatabase("Database.db");
-        UserManagement.addUsers(4, "Jeb", "Yale", "Diggless", "Spanner");
+        UserManagement.deleteUser(89);
         closeDatabase();
     }
     private static void openDatabase(String dbFile) {
