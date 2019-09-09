@@ -7,7 +7,7 @@ public class Main {
     public static Connection db = null;
     public static void main(String[] args) {
         openDatabase("Database.db");
-        UserManagement.deleteUser(89);
+        TaskManagement.readTask();
         closeDatabase();
     }
     private static void openDatabase(String dbFile) {
