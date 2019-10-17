@@ -1,30 +1,46 @@
 package Controllers;
 
 import Server.Main;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 
 @Path ("Users/")
 public class UserManagement {
-    public static void addUser(Integer userID, String firstName, String lastName, String userName, String password) {
+    @POST
+    @Path("addUser")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+
+    public String addUser(@FormDataParam("userID") Integer userID,
+                          @FormDataParam("firstName") String firstName,
+                          @FormDataParam("lastName") String lastName,
+                          @FormDataParam("userName") String userName,
+                          @FormDataParam("password") String password) {
         try {
+            if (userID == null || firstName == null || lastName == null|| userName == null|| password == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+
             PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users(UserID, FirstName, LastName, UserName, Password) VALUES (?, ?, ?, ?, ?)");
             ps.setInt(1, userID);
             ps.setString(2, firstName);
             ps.setString(3, lastName);
             ps.setString(4, userName);
             ps.setString(5, password);
-            ps.executeUpdate();
+            ps.execute();
+            return "{\"status\": \"OK\"}";
+
 
         } catch (Exception exception) {
             System.out.println("Database disconnection error: " + exception.getMessage());
+            return "{\"error\": \"Unable to create new item, please see server console for more info.\"}";
+
         }
     }
     @GET
