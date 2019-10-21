@@ -70,26 +70,49 @@ public class UserManagement {
 
         }
     }
-
-    public static void updateUser(String firstName, Integer userID) {
+    @POST
+    @Path("updateUser")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String updateUser(@FormDataParam("firstname") String firstName, @FormDataParam("userID")Integer userID) {
         try {
+            if (firstName == null || userID == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+
             PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET FirstName = ? WHERE UserID = ?");
             ps.setString(1, firstName);
             ps.setInt(2, userID);
             ps.executeUpdate();
+            return "{\"status\": \"OK\"}";
+
 
         } catch (Exception exception) {
             System.out.println("Database disconnection error: " + exception.getMessage());
+            return "{\"error\": \"Unable to update item, please see server console for more info.\"}";
         }
     }
-    public static void deleteUser(Integer userID) {
+    @POST
+    @Path("deleteUser")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+
+    public String deleteUser(@FormDataParam("userID")Integer userID) {
         try {
+            if (userID == null) {
+                throw new Exception("One or more form data parameters are missing in the HTTP request.");
+            }
+
             PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Users WHERE UserID = ?");
             ps.setInt(1, userID);
             ps.executeUpdate();
+            return "{\"status\": \"OK\"}";
+
 
         } catch (Exception exception) {
             System.out.println("Database disconnection error: " + exception.getMessage());
+            return "{\"error\": \"Unable to delete item, please see server console for more info.\"}";
+
         }
     }
 }
