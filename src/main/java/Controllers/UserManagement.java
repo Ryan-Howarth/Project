@@ -12,37 +12,7 @@ import java.sql.PreparedStatement;
 
 @Path ("Users/")
 public class UserManagement {
-    @POST
-    @Path("addUser")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON)
 
-    public String addUser(@FormDataParam("userID") Integer userID,
-                          @FormDataParam("firstName") String firstName,
-                          @FormDataParam("lastName") String lastName,
-                          @FormDataParam("userName") String userName,
-                          @FormDataParam("password") String password) {
-        try {
-            if (userID == null || firstName == null || lastName == null|| userName == null|| password == null) {
-                throw new Exception("One or more form data parameters are missing in the HTTP request.");
-            }
-
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users(UserID, FirstName, LastName, UserName, Password) VALUES (?, ?, ?, ?, ?)");
-            ps.setInt(1, userID);
-            ps.setString(2, firstName);
-            ps.setString(3, lastName);
-            ps.setString(4, userName);
-            ps.setString(5, password);
-            ps.execute();
-            return "{\"status\": \"OK\"}";
-
-
-        } catch (Exception exception) {
-            System.out.println("Database disconnection error: " + exception.getMessage());
-            return "{\"error\": \"Unable to create new item, please see server console for more info.\"}";
-
-        }
-    }
     @GET
     @Path("list")
     @Produces(MediaType.APPLICATION_JSON)
