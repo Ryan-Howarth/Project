@@ -16,10 +16,10 @@ public class TaskManagement {
     @Path("addTask")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String addTask(@FormDataParam("taskID")Integer taskID,
+    public String addTask(@FormDataParam("taskid")Integer taskID,
                           @FormDataParam("task")String task,
                           @FormDataParam("answer")String answer,
-                          @FormDataParam("toolID")Integer toolID) {
+                          @FormDataParam("toolid")Integer toolID) {
         try {
             if (taskID == null || task == null || answer == null||toolID  == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
@@ -67,7 +67,7 @@ public class TaskManagement {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public String updateTask(@FormDataParam("task")String task,
-                             @FormDataParam("taskID")Integer taskID) {
+                             @FormDataParam("taskid")Integer taskID) {
         try {
             if (task == null || taskID == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
@@ -87,7 +87,7 @@ public class TaskManagement {
     @Path("deleteTask")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String deleteTask(@FormDataParam("taskID")Integer taskID) {
+    public String deleteTask(@FormDataParam("taskid")Integer taskID) {
         try {
             if (taskID == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");

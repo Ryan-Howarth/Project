@@ -17,8 +17,8 @@ public class ScoresManagement {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public String addScore(@FormDataParam("scoreID")Integer scoreID,
-                                @FormDataParam("userID")Integer userID,
-                                @FormDataParam("toolID")Integer toolID,
+                                @FormDataParam("userid")Integer userID,
+                                @FormDataParam("toolid")Integer toolID,
                                 @FormDataParam("score")Integer score) {
         try {
             if (scoreID == null || userID == null || toolID == null|| score == null) {
@@ -68,7 +68,7 @@ public class ScoresManagement {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public String updateScore(@FormDataParam("score")String score,
-                              @FormDataParam("scoreID")Integer scoreID) {
+                              @FormDataParam("scoreid")Integer scoreID) {
         try {
             if (score == null || scoreID == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
@@ -89,7 +89,7 @@ public class ScoresManagement {
     @Path("deleteScore")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String deleteScore(@FormDataParam("scoreID")Integer scoreID) throws Exception {
+    public String deleteScore(@FormDataParam("scoreid")Integer scoreID) throws Exception {
         try {
             if (scoreID == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");

@@ -16,8 +16,8 @@ public class ToolManagement {
     @Path("addTool")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String addTool(@FormDataParam("toolID")Integer toolID,
-                          @FormDataParam("toolName")String toolName) {
+    public String addTool(@FormDataParam("toolid")Integer toolID,
+                          @FormDataParam("toolname")String toolName) {
 
         try {
             if (toolID == null || toolName == null) {
@@ -63,7 +63,7 @@ public class ToolManagement {
     @Path("updateTool")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String updateTool(@FormDataParam("toolName")String toolName,@FormDataParam("toolID") Integer toolID) {
+    public String updateTool(@FormDataParam("toolname")String toolName,@FormDataParam("toolid") Integer toolID) {
         try {
             PreparedStatement ps = Main.db.prepareStatement("UPDATE Tools SET ToolName = ? WHERE ToolID = ?");
             ps.setString(1, toolName);
@@ -80,7 +80,7 @@ public class ToolManagement {
     @Path("deleteTool")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String deleteTool(@FormDataParam("toolID")Integer toolID) {
+    public String deleteTool(@FormDataParam("toolid")Integer toolID) {
         try {
             PreparedStatement ps = Main.db.prepareStatement("DELETE FROM Tools WHERE ToolID = ?");
             ps.setInt(1, toolID);
