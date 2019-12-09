@@ -43,7 +43,6 @@ function checkLogin() {
         for (let button of deleteButtons) {
             button.style.visibility = "visible";
         }
-        checkLogin();
 
         logInHTML = "Logged in as " + username + ". <a href='/client/login.html?logout'>Log out</a>";
 
