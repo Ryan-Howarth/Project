@@ -4,14 +4,14 @@ function pageLoad() {
 
     let myHTML = '<div style="text-align:center;">'
         + '<h1>I once caught a fish and it was this big!</h1>'
-        + '<img src="/client/img/bush-0710.jpg"  alt="Logo"/>'
+        + '<img  class = "image" src="/client/img/bush-0710.jpg" height="200"; width = "2000";   alt="Logo"/>'
         + '<div style="font-style: bold;">'
         + 'Generated at ' + now.toLocaleTimeString()
         + '</div>'
         + '</div>';
 
     document.getElementById("testDiv").innerHTML = myHTML;
-
+    checkLogin()
 }
 function checkLogin() {
 
@@ -45,10 +45,8 @@ function checkLogin() {
         }
 
         logInHTML = "Logged in as " + username + ". <a href='/client/login.html?logout'>Log out</a>";
-
     }
 
     document.getElementById("loggedInDetails").innerHTML = logInHTML;
 
 }
-
