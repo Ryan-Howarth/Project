@@ -1,8 +1,10 @@
 function pageLoad() {
 
     if(window.location.search === '?logout') {
-        document.getElementById('content').innerHTML = '<h1>Logging out, please wait...</h1>';
+        document.getElementById('content').innerHTML = '<h1>Help</h1>';
+        debugger;
         logout();
+
     } else {
         document.getElementById("loginButton").addEventListener("click", login);
     }

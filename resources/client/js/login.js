@@ -2,9 +2,8 @@ function pageLoad() {
 
     if(window.location.search === '?logout') {
         document.getElementById('content').innerHTML = '<h1>Help</h1>';
+        debugger;
         logout();
-        window.location.href = '/client/index.html';
-        checkLogin()
 
     } else {
         document.getElementById("loginButton").addEventListener("click", login);

@@ -11,11 +11,11 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.util.UUID;
 
-@Path ("Users/")
+@Path ("user/")
 public class UserManagement {
 
     @POST
-    @Path("addUser")
+    @Path("adduser")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
 
@@ -80,7 +80,7 @@ public class UserManagement {
     }
 
     @POST
-    @Path("updateUser")
+    @Path("updateuser")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
 
@@ -111,7 +111,7 @@ public class UserManagement {
     }
 
     @POST
-    @Path("deleteUser")
+    @Path("deleteuser")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
 
@@ -141,56 +141,48 @@ public class UserManagement {
         }
     }
 
-    @Path("user/")
-    public static class User {
+    @POST
+    @Path("login")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String loginUser(@FormDataParam("username") String username, @FormDataParam("password") String password) {
 
-        @POST
-        @Path("login")
-        @Consumes(MediaType.MULTIPART_FORM_DATA)
-        @Produces(MediaType.APPLICATION_JSON)
-        public String loginUser(@FormDataParam("username") String username, @FormDataParam("password") String password) {
+        try {
 
+            System.out.println("users/login");
 
+            PreparedStatement ps1 = Main.db.prepareStatement("SELECT Password FROM Users WHERE UserName = ?");
+            ps1.setString(1, username);
+            ResultSet loginResults = ps1.executeQuery();
+            if (loginResults.next()) {
 
+                String correctPassword = loginResults.getString(1);
+                if (password.equals(correctPassword)) {
 
-            try {
+                    String token = UUID.randomUUID().toString();
 
-                System.out.println("user/login");
+                    PreparedStatement ps2 = Main.db.prepareStatement("UPDATE Users SET Token = ? WHERE UserName = ?");
+                    ps2.setString(1, token);
+                    ps2.setString(2, username);
+                    ps2.executeUpdate();
 
-                PreparedStatement ps1 = Main.db.prepareStatement("SELECT Password FROM Users WHERE Username = ?");
-                ps1.setString(1, username);
-                ResultSet loginResults = ps1.executeQuery();
-                if (loginResults.next()) {
-
-                    String correctPassword = loginResults.getString(1);
-                    if (password.equals(correctPassword)) {
-
-                        String token = UUID.randomUUID().toString();
-
-                        PreparedStatement ps2 = Main.db.prepareStatement("UPDATE Users SET Token = ? WHERE Username = ?");
-                        ps2.setString(1, token);
-                        ps2.setString(2, username);
-                        ps2.executeUpdate();
-
-                        JSONObject userDetails = new JSONObject();
-                        userDetails.put("username", username);
-                        userDetails.put("token", token);
-                        return userDetails.toString();
-
-                    } else {
-                        return "{\"error\": \"Incorrect password!\"}";
-                    }
+                    JSONObject userDetails = new JSONObject();
+                    userDetails.put("username", username);
+                    userDetails.put("token", token);
+                    return userDetails.toString();
 
                 } else {
-                    return "{\"error\": \"Unknown user!\"}";
+                    return "{\"error\": \"Incorrect password!\"}";
                 }
 
-            } catch (Exception exception) {
-                System.out.println("Database error during /user/login: " + exception.getMessage());
-                return "{\"error\": \"Server side error!\"}";
+            } else {
+                return "{\"error\": \"Unknown user!\"}";
             }
-        }
 
+        } catch (Exception exception) {
+            System.out.println("Database error during /user/login: " + exception.getMessage());
+            return "{\"error\": \"Server side error!\"}";
+        }
     }
 
     @POST
